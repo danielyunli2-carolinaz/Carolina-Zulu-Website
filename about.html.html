@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Carolina Zulu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sunset: {
+                            900: '#7c2d12',
+                            800: '#9a3412',
+                            700: '#c2410c',
+                            100: '#ffedd5',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-b from-sunset-800 via-sunset-700 to-sunset-900 min-h-screen text-sunset-100 font-sans selection:bg-orange-500 selection:text-white flex flex-col">
+
+    <nav class="w-full bg-black/20 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center h-20">
+                <ul class="flex flex-wrap justify-center gap-6 sm:gap-10 text-sm sm:text-base font-semibold tracking-wide">
+                    <li>
+                        <!-- Link points back to index.html -->
+                        <a href="index.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Home</a>
+                    </li>
+                    <li>
+                        <a href="about.html" class="text-yellow-400 transition-colors duration-300 border-b-2 border-yellow-400 pb-1">About Us</a>
+                    </li>
+                    <li>
+                        <a href="#events" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Events</a>
+                    </li>
+                    <li>
+                        <a href="#locations" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Locations & Ambassadors</a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex flex-col items-center flex-grow px-4 py-16 text-center">
+        
+        <!-- Header -->
+        <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight mb-16 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400 drop-shadow-sm">
+            About Us
+        </h1>
+        
+        <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center text-left px-4 sm:px-8">
+            
+            <!-- Left Side: Image -->
+            <div class="relative group overflow-hidden rounded-3xl border-2 border-white/10 shadow-2xl bg-black/20 transform transition duration-500 hover:scale-105">
+                 <div class="absolute inset-0 bg-sunset-900/10 group-hover:bg-transparent transition duration-500 z-10 pointer-events-none"></div>
+                 <img 
+                    src="69012.jpg" 
+                    alt="Cessna Airplane Detail" 
+                    class="w-full h-auto object-cover object-center max-h-[500px]"
+                    onerror="this.src='https://placehold.co/600x400/9a3412/ffedd5?text=Aircraft+Missing'"
+                >
+            </div>
+
+            <!-- Right Side: Blurb -->
+            <div class="flex flex-col justify-center space-y-6">
+                <p class="text-lg sm:text-xl text-orange-100/90 leading-relaxed font-light">
+                    Born out of a tight-knit youth community that started in Central North Carolina in June 2025, Carolina Zulu was founded with the express purpose of giving the next generation of Carolina pilots a hub to embark on new friendships and adventures.
+                </p>
+                <p class="text-lg sm:text-xl text-orange-100/90 leading-relaxed font-light">
+                    Since our founding, our members have linked up to take trips as far as Space Coast and the New York skyline - building valuable experience and helping keep each other safe.
+                </p>
+                
+                <!-- Extra decorative element to fill the space nicely -->
+                <div class="pt-4">
+                    <div class="h-1 w-24 bg-gradient-to-r from-yellow-400 to-transparent rounded-full"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Simple Footer for the secondary page -->
+    <footer class="w-full text-center py-6 text-sunset-100/50 text-sm border-t border-white/10 mt-10">
+        <p>&copy; 2026 Carolina Zulu. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

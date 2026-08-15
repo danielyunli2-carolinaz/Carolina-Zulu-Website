@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carolina Zulu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sunset: {
+                            900: '#7c2d12', // Dark burnt orange (Lighter than before)
+                            800: '#9a3412', // Rich medium orange
+                            700: '#c2410c', // Bright sunset orange
+                            100: '#ffedd5', // Soft warm white for text
+                    }
+                }
+            }
+        }
+    }
+    </script>
+</head>
+<body class="bg-gradient-to-b from-sunset-800 via-sunset-700 to-sunset-900 min-h-screen text-sunset-100 font-sans selection:bg-orange-500 selection:text-white">
+
+    <nav class="w-full bg-black/20 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center h-20">
+                <ul class="flex flex-wrap justify-center gap-6 sm:gap-10 text-sm sm:text-base font-semibold tracking-wide">
+                    <li>
+                        <a href="#" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Home</a>
+                    </li>
+                    <li>
+                        <a href="about.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">About Us</a>
+                    </li>
+                    <li>
+                        <a href="#events" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Events</a>
+                    </li>
+                    <li>
+                        <a href="#locations" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Locations & Ambassadors</a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex flex-col items-center justify-center px-4 py-20 text-center">
+        
+        <!-- Logo and States Container -->
+        <div class="flex flex-row items-center justify-center w-full gap-4 sm:gap-8 md:gap-12 mb-10 max-w-6xl">
+            
+            <!-- North Carolina Image -->
+            <div class="hidden sm:flex items-center justify-center w-52 sm:w-72 md:w-96">
+                <img 
+                    src="nc.jpg" 
+                    alt="North Carolina" 
+                    class="w-full h-auto transform -rotate-3 hover:scale-105 transition duration-500 mix-blend-multiply contrast-150 brightness-110 grayscale opacity-90"
+                    onerror="this.src='https://placehold.co/300x200/7c2d12/ffedd5?text=NC+Missing'"
+                >
+            </div>
+
+            <!-- Mascot Image -->
+            <div class="relative group shrink-0">
+                <div class="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-sunset-700 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+                <img 
+                    src="the logo.jpg" 
+                    alt="Carolina Zulu Aviator Cat Mascot" 
+                    class="relative w-64 h-64 sm:w-80 sm:h-80 object-cover object-[70%_40%] rounded-full border-4 border-sunset-900 shadow-2xl z-10"
+                    onerror="this.src='https://placehold.co/400x400/7c2d12/ffedd5?text=Carolina+Zulu+Logo'"
+                >
+            </div>
+
+            <!-- South Carolina Image -->
+            <div class="hidden sm:flex items-center justify-center w-36 sm:w-48 md:w-64">
+                 <img 
+                    src="sc.jpg" 
+                    alt="South Carolina" 
+                    class="w-full h-auto transform rotate-3 hover:scale-105 transition duration-500 mix-blend-multiply opacity-90"
+                    onerror="this.src='https://placehold.co/300x200/7c2d12/ffedd5?text=SC+Missing'"
+                >
+            </div>
+
+        </div>
+
+        <!-- Main Headings -->
+        <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400 drop-shadow-sm">
+            Carolina Zulu
+        </h1>
+        
+        <h2 class="text-xl sm:text-2xl font-light text-orange-200 max-w-2xl mx-auto mb-8" id="about">
+            The Zoomer Pilot's Place to Be
+        </h2>
+
+        <p class="text-lg sm:text-xl text-orange-100/90 max-w-3xl mx-auto mb-10 leading-relaxed font-light">
+            Behind every flight school and every flight club lies one thing: our shared community. As young men and women, with many being newcomers into the aviation space, we understand how important that community truly is. So be it a group trip to the beach, a party after a check ride pass, or just a simple group of lifelong friends - we hope you can find that community with us!
+        </p>
+
+        <!-- Discord Call to Action Button -->
+        <a href="https://discord.gg/EyyGxW4Y2w" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-sunset-900 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full hover:from-yellow-300 hover:to-orange-400 transition-all duration-300 shadow-lg shadow-orange-500/30 transform hover:-translate-y-1">
+            Join the Squadron
+        </a>
+
+    </main>
+
+    <section class="w-full max-w-6xl mx-auto px-4 pb-20 text-center">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 px-4 sm:px-0">
+            
+            <!-- Photo 1: Cockpit -->
+            <div class="relative group overflow-hidden rounded-3xl border border-white/10 shadow-2xl bg-black/20">
+                <div class="absolute inset-0 bg-sunset-900/20 group-hover:bg-transparent transition duration-500 z-10 pointer-events-none"></div>
+                <img 
+                    src="theboys.jpg" 
+                    alt="In the cockpit" 
+                    class="w-full h-72 object-cover transform group-hover:scale-110 transition duration-700 ease-in-out"
+                    onerror="this.src='https://placehold.co/400x300/9a3412/ffedd5?text=Cockpit'"
+                >
+            </div>
+
+            <!-- Photo 2: Group (Staggered down slightly on desktop) -->
+            <div class="relative group overflow-hidden rounded-3xl border border-white/10 shadow-2xl bg-black/20 md:translate-y-8">
+                <div class="absolute inset-0 bg-sunset-900/20 group-hover:bg-transparent transition duration-500 z-10 pointer-events-none"></div>
+                <img 
+                    src="group1.jpg" 
+                    alt="The whole group by the plane" 
+                    class="w-full h-72 object-cover transform group-hover:scale-110 transition duration-700 ease-in-out object-center"
+                    onerror="this.src='https://placehold.co/400x300/9a3412/ffedd5?text=Group'"
+                >
+            </div>
+
+            <!-- Photo 3: Checkride Pass -->
+            <div class="relative group overflow-hidden rounded-3xl border border-white/10 shadow-2xl bg-black/20">
+                <div class="absolute inset-0 bg-sunset-900/20 group-hover:bg-transparent transition duration-500 z-10 pointer-events-none"></div>
+                <img 
+                    src="checkride pass.jpg" 
+                    alt="Celebrating a checkride pass with the mascot" 
+                    class="w-full h-72 object-cover transform group-hover:scale-110 transition duration-700 ease-in-out"
+                    onerror="this.src='https://placehold.co/400x300/9a3412/ffedd5?text=Checkride'"
+                >
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>
