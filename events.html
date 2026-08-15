@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events | Carolina Zulu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sunset: {
+                            900: '#7c2d12',
+                            800: '#9a3412',
+                            700: '#c2410c',
+                            100: '#ffedd5',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .color-scheme-dark { color-scheme: dark; }
+        /* Hide scrollbar for neatness */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-sunset-800 via-sunset-700 to-sunset-900 min-h-screen text-sunset-100 font-sans selection:bg-orange-500 selection:text-white flex flex-col">
+
+    <nav class="w-full bg-black/20 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center h-20">
+                <ul class="flex flex-wrap justify-center gap-6 sm:gap-10 text-sm sm:text-base font-semibold tracking-wide">
+                    <li>
+                        <a href="index.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Home</a>
+                    </li>
+                    <li>
+                        <a href="about.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">About Us</a>
+                    </li>
+                    <li>
+                        <a href="events.html" class="text-yellow-400 transition-colors duration-300 border-b-2 border-yellow-400 pb-1">Events</a>
+                    </li>
+                    <li>
+                        <a href="#locations" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Locations & Ambassadors</a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex flex-col items-center flex-grow px-4 py-16 text-center w-full">
+        
+        <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400 drop-shadow-sm">
+            Flight Log
+        </h1>
+        <p class="text-lg sm:text-xl text-orange-200 font-light mb-12">Track upcoming fly-outs, meetups, and squadron events.</p>
+        
+        <div class="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Side: Interactive Calendar -->
+            <div class="lg:col-span-2 bg-black/20 border border-white/10 rounded-3xl p-6 shadow-2xl backdrop-blur-sm relative">
+                
+                <!-- Loading Overlay -->
+                <div id="loadingOverlay" class="absolute inset-0 bg-sunset-900/80 backdrop-blur-sm z-20 rounded-3xl flex flex-col items-center justify-center transition-opacity duration-500">
+                    <svg class="animate-spin h-10 w-10 text-yellow-400 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    <p class="text-orange-200 font-medium">Syncing with Flight Log...</p>
+                </div>
+
+                <!-- Calendar Header -->
+                <div class="flex justify-between items-center mb-6">
+                    <button id="prevMonth" class="p-2 hover:bg-white/10 rounded-full transition text-yellow-400 hover:text-yellow-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <h2 id="currentMonthYear" class="text-2xl font-bold text-sunset-100"></h2>
+                    <button id="nextMonth" class="p-2 hover:bg-white/10 rounded-full transition text-yellow-400 hover:text-yellow-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+                
+                <!-- Days of Week -->
+                <div class="grid grid-cols-7 gap-2 mb-2">
+                    <div class="text-center font-semibold text-orange-300/70 text-sm py-2">Sun</div>
+                    <div class="text-center font-semibold text-orange-300/70 text-sm py-2">Mon</div>
+                    <div class="text-center font-semibold text-orange-300/70 text-sm py-2">Tue</div>
+                    <div class="text-center font-semibold text-orange-300/70 text-sm py-2">Wed</div>
+                    <div class="text-center font-semibold text-orange-300/70 text-sm py-2">Thu</div>
+                    <div class="text-center font-semibold text-orange-300/70 text-sm py-2">Fri</div>
+                    <div class="text-center font-semibold text-orange-300/70 text-sm py-2">Sat</div>
+                </div>
+                
+                <!-- Calendar Grid -->
+                <div id="calendarGrid" class="grid grid-cols-7 gap-2">
+                    <!-- Days generated by JS -->
+                </div>
+            </div>
+
+            <!-- Right Side: Upcoming Events List -->
+            <div class="bg-black/20 border border-white/10 rounded-3xl p-6 shadow-2xl backdrop-blur-sm flex flex-col h-[500px] lg:h-auto">
+                <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                    <h3 class="text-xl font-bold text-yellow-400">Upcoming Events</h3>
+                    <!-- Hidden by default, only shown to Admins -->
+                    <button id="addEventBtn" onclick="openEventModal()" class="hidden text-xs font-bold uppercase tracking-wider bg-orange-500 hover:bg-orange-400 text-white py-1.5 px-3 rounded-lg transition shadow-lg">
+                        + Add
+                    </button>
+                </div>
+                
+                <div id="eventsList" class="flex flex-col gap-4 overflow-y-auto flex-grow text-left pr-2 pb-4">
+                    <!-- Event Cards generated by JS -->
+                </div>
+
+                <!-- Admin Access Button -->
+                <div class="pt-4 border-t border-white/10 mt-auto text-right">
+                    <button id="adminLoginBtn" onclick="openAdminModal()" class="text-xs text-white/30 hover:text-yellow-400 transition flex items-center justify-end gap-1 ml-auto">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        Admin Access
+                    </button>
+                    <span id="adminActiveBadge" class="hidden text-xs font-bold text-yellow-400 tracking-wider uppercase">Admin Mode Active</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Event Modal -->
+    <div id="eventModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-gradient-to-b from-sunset-800 to-sunset-900 border border-white/20 p-8 rounded-3xl shadow-2xl w-full max-w-md transform scale-95 transition-transform duration-300" id="eventModalContent">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-yellow-400">Add Squadron Event</h3>
+                <button onclick="closeEventModal()" class="text-white/50 hover:text-white transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <form id="addEventForm" class="flex flex-col gap-4 text-left">
+                <div>
+                    <label class="block text-sm font-medium text-orange-200 mb-1">Event Title</label>
+                    <input type="text" id="eventTitle" required class="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition" placeholder="e.g., FFA Fly-Out">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-orange-200 mb-1">Date</label>
+                    <input type="date" id="eventDate" required class="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition color-scheme-dark">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-orange-200 mb-1">Location / Details</label>
+                    <textarea id="eventDesc" rows="3" class="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition" placeholder="Meet at the ramp..."></textarea>
+                </div>
+                <button type="submit" id="saveEventBtn" class="w-full mt-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-sunset-900 font-bold py-3 rounded-xl transition shadow-lg shadow-orange-500/30 flex justify-center items-center h-12">
+                    Save Event
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="adminModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300 px-4">
+        <div class="bg-gradient-to-b from-sunset-800 to-sunset-900 border border-white/20 p-8 rounded-3xl shadow-2xl w-full max-w-sm transform scale-95 transition-transform duration-300" id="adminModalContent">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-yellow-400">Admin Login</h3>
+                <button onclick="closeAdminModal()" class="text-white/50 hover:text-white transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <form id="adminForm" class="flex flex-col gap-4 text-left">
+                <p class="text-sm text-orange-200 mb-2">Enter the Squadron Passcode to unlock editing features.</p>
+                <div>
+                    <input type="password" id="adminPasscode" required class="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition text-center text-xl tracking-widest" placeholder="••••••••">
+                </div>
+                <p id="adminError" class="text-red-400 text-sm text-center hidden font-medium">Incorrect passcode.</p>
+                <button type="submit" class="w-full mt-2 bg-white/10 hover:bg-white/20 text-white font-bold py-3 rounded-xl transition border border-white/10">
+                    Unlock
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // State Variables
+        let currentDate = new Date();
+        let events = [];
+        let isAdmin = false; // Controls UI
+        let isFirebaseActive = false; // Fallback toggle
+        
+        // Firebase Globals
+        let db, auth, eventsCollection;
+
+        // DOM Elements
+        const calendarGrid = document.getElementById('calendarGrid');
+        const currentMonthYear = document.getElementById('currentMonthYear');
+        const eventsList = document.getElementById('eventsList');
+        const eventModal = document.getElementById('eventModal');
+        const eventModalContent = document.getElementById('eventModalContent');
+        const adminModal = document.getElementById('adminModal');
+        const adminModalContent = document.getElementById('adminModalContent');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        async function initApp() {
+            try {
+                // Determine Environment configuration
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'carolina-zulu';
+                const configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
+                
+                // If we don't have a database configured (e.g. on your fresh Cloudflare site), fall back to memory
+                if (!configStr) {
+                    console.log("No Firebase config detected. Running in local memory mode.");
+                    startLocalMode();
+                    return;
+                }
+
+                // Initialize Firebase
+                const firebaseConfig = JSON.parse(configStr);
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                // Authentication is required before Database reads
+                const initialToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+                if (initialToken) {
+                    await signInWithCustomToken(auth, initialToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                // Setup the Database Path (MANDATORY RULE)
+                eventsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'squadron_events');
+                isFirebaseActive = true;
+                
+                // Start listening to live database changes
+                listenToEvents();
+
+            } catch (error) {
+                console.error("Database connection failed, switching to local mode:", error);
+                startLocalMode();
+            }
+        }
+
+        function listenToEvents() {
+            if(!auth.currentUser) return;
+
+            // Subscribe to live updates from the database
+            onSnapshot(eventsCollection, (snapshot) => {
+                events = [];
+                snapshot.forEach((doc) => {
+                    events.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+                
+                hideLoading();
+                renderCalendar();
+            }, (error) => {
+                console.error("Error fetching events:", error);
+                hideLoading();
+            });
+        }
+
+        function startLocalMode() {
+            // Provide some dummy data for local testing
+            events = [
+                { id: '1', date: '2026-08-22', title: 'FFA Beach Run', desc: 'Squadron fly-out to First Flight Airport.' },
+                { id: '2', date: '2026-08-28', title: 'Deck Hangout', desc: 'Sunset drinks at RDU.' }
+            ];
+            hideLoading();
+            renderCalendar();
+        }
+
+        function hideLoading() {
+            loadingOverlay.classList.add('opacity-0');
+            setTimeout(() => loadingOverlay.classList.add('hidden'), 500);
+        }
+
+        function renderCalendar() {
+            calendarGrid.innerHTML = '';
+            
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            currentMonthYear.textContent = `${monthNames[month]} ${year}`;
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date();
+            const isCurrentMonth = today.getMonth() === month && today.getFullYear() === year;
+
+            for (let i = 0; i < firstDay; i++) {
+                const blank = document.createElement('div');
+                blank.className = 'aspect-square rounded-xl bg-black/5 border border-transparent';
+                calendarGrid.appendChild(blank);
+            }
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayEvents = events.filter(e => e.date === dateString);
+                
+                const dayDiv = document.createElement('div');
+                const isToday = isCurrentMonth && day === today.getDate();
+                
+                let cursorStyle = isAdmin ? 'cursor-pointer hover:scale-105 hover:border-orange-400 hover:bg-orange-900/40 hover:z-10' : 'cursor-default';
+                
+                dayDiv.className = `aspect-square rounded-xl border flex flex-col p-1 sm:p-2 transition transform ${
+                    isToday ? 'border-yellow-400 bg-yellow-400/10' : 'border-white/10 bg-black/30'
+                } ${cursorStyle}`;
+                
+                // Only allow clicking dates if Admin
+                if(isAdmin) {
+                    dayDiv.onclick = () => {
+                        document.getElementById('eventDate').value = dateString;
+                        openEventModal();
+                    };
+                }
+
+                const dayNum = document.createElement('span');
+                dayNum.className = `text-xs sm:text-sm font-semibold mb-1 ${isToday ? 'text-yellow-400' : 'text-sunset-100'}`;
+                dayNum.textContent = day;
+                dayDiv.appendChild(dayNum);
+                
+                if (dayEvents.length > 0) {
+                    const dotsContainer = document.createElement('div');
+                    dotsContainer.className = 'flex flex-wrap gap-1 mt-auto';
+                    dayEvents.forEach(() => {
+                        const dot = document.createElement('div');
+                        dot.className = 'w-2 h-2 rounded-full bg-orange-400 shadow-[0_0_5px_rgba(251,146,60,0.8)]';
+                        dotsContainer.appendChild(dot);
+                    });
+                    dayDiv.appendChild(dotsContainer);
+                }
+                
+                calendarGrid.appendChild(dayDiv);
+            }
+            renderUpcomingEvents();
+        }
+
+        function renderUpcomingEvents() {
+            eventsList.innerHTML = '';
+            
+            const sortedEvents = [...events].sort((a, b) => new Date(a.date) - new Date(b.date));
+            const todayStr = new Date().toISOString().split('T')[0];
+            const futureEvents = sortedEvents.filter(e => e.date >= todayStr);
+
+            if (futureEvents.length === 0) {
+                eventsList.innerHTML = '<p class="text-orange-200/50 text-sm italic text-center mt-10">No upcoming events scheduled. Time to plan a fly-out!</p>';
+                return;
+            }
+
+            futureEvents.forEach(evt => {
+                const d = new Date(evt.date + 'T12:00:00');
+                const monthStr = d.toLocaleString('default', { month: 'short' });
+                const dayNum = d.getDate();
+
+                const card = document.createElement('div');
+                card.className = 'bg-black/30 border border-white/5 rounded-2xl p-4 flex gap-4 items-start group hover:bg-white/5 hover:border-white/20 transition';
+                
+                // Delete button logic (Only show to Admins)
+                let deleteBtnHtml = '';
+                if(isAdmin) {
+                    deleteBtnHtml = `
+                    <button onclick="window.removeEvent('${evt.id}')" class="text-white/20 hover:text-red-400 transition ml-auto p-2 rounded-full hover:bg-red-400/10 shrink-0" title="Delete Event">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>`;
+                }
+
+                card.innerHTML = `
+                    <div class="flex flex-col items-center justify-center bg-gradient-to-b from-sunset-700 to-sunset-800 rounded-xl w-14 h-14 shrink-0 shadow-inner border border-white/10">
+                        <span class="text-xs text-orange-200 font-bold uppercase">${monthStr}</span>
+                        <span class="text-xl font-extrabold text-white leading-none">${dayNum}</span>
+                    </div>
+                    <div class="flex flex-col pt-1 flex-grow">
+                        <h4 class="font-bold text-sunset-100 group-hover:text-yellow-400 transition leading-tight">${evt.title}</h4>
+                        <p class="text-sm text-orange-200/70 leading-snug mt-1">${evt.desc}</p>
+                    </div>
+                    ${deleteBtnHtml}
+                `;
+                eventsList.appendChild(card);
+            });
+        }
+
+        
+        // Attach to window so HTML inline onclicks can find them
+        window.openEventModal = function() {
+            eventModal.classList.remove('hidden');
+            setTimeout(() => {
+                eventModal.classList.remove('opacity-0');
+                eventModalContent.classList.remove('scale-95');
+                eventModalContent.classList.add('scale-100');
+            }, 10);
+            document.getElementById('eventTitle').focus();
+        };
+
+        window.closeEventModal = function() {
+            eventModal.classList.add('opacity-0');
+            eventModalContent.classList.remove('scale-100');
+            eventModalContent.classList.add('scale-95');
+            setTimeout(() => {
+                eventModal.classList.add('hidden');
+                document.getElementById('addEventForm').reset();
+            }, 300);
+        };
+
+        window.openAdminModal = function() {
+            adminModal.classList.remove('hidden');
+            document.getElementById('adminError').classList.add('hidden');
+            setTimeout(() => {
+                adminModal.classList.remove('opacity-0');
+                adminModalContent.classList.remove('scale-95');
+                adminModalContent.classList.add('scale-100');
+            }, 10);
+            document.getElementById('adminPasscode').focus();
+        };
+
+        window.closeAdminModal = function() {
+            adminModal.classList.add('opacity-0');
+            adminModalContent.classList.remove('scale-100');
+            adminModalContent.classList.add('scale-95');
+            setTimeout(() => {
+                adminModal.classList.add('hidden');
+                document.getElementById('adminForm').reset();
+            }, 300);
+        };
+
+        // Add Event to Database
+        document.getElementById('addEventForm').onsubmit = async (e) => {
+            e.preventDefault();
+            if(!isAdmin) return;
+
+            const date = document.getElementById('eventDate').value;
+            const title = document.getElementById('eventTitle').value;
+            const desc = document.getElementById('eventDesc').value;
+            const btn = document.getElementById('saveEventBtn');
+            
+            if(date && title) {
+                btn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+                
+                if (isFirebaseActive && auth.currentUser) {
+                    try {
+                        await addDoc(eventsCollection, { date, title, desc });
+                    } catch(err) { console.error("Write failed", err); }
+                } else {
+                    events.push({ id: Date.now().toString(), date, title, desc });
+                    renderCalendar();
+                }
+                
+                btn.innerHTML = 'Save Event';
+                window.closeEventModal();
+            }
+        };
+
+        // Remove Event from Database
+        window.removeEvent = async function(id) {
+            if(!isAdmin) return;
+            
+            if (isFirebaseActive && auth.currentUser) {
+                try {
+                    await deleteDoc(doc(eventsCollection, id));
+                } catch(err) { console.error("Delete failed", err); }
+            } else {
+                events = events.filter(e => e.id !== id);
+                renderCalendar();
+            }
+        };
+
+        // Admin Passcode Check
+        document.getElementById('adminForm').onsubmit = (e) => {
+            e.preventDefault();
+            const pass = document.getElementById('adminPasscode').value.toLowerCase();
+            
+            // THE SECRET ADMIN PASSCODE:
+            if(pass === 'zulu26') {
+                isAdmin = true;
+                window.closeAdminModal();
+                
+                // Show Admin UI Elements
+                document.getElementById('addEventBtn').classList.remove('hidden');
+                document.getElementById('adminLoginBtn').classList.add('hidden');
+                document.getElementById('adminActiveBadge').classList.remove('hidden');
+                
+                renderCalendar(); // Re-render to show hover states and trash cans
+            } else {
+                document.getElementById('adminError').classList.remove('hidden');
+            }
+        };
+
+        // Month Navigation
+        document.getElementById('prevMonth').onclick = () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        };
+
+        document.getElementById('nextMonth').onclick = () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        };
+
+        // Boot up
+        initApp();
+    </script>
+</body>
+</html>
