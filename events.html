@@ -46,10 +46,10 @@
                         <a href="events.html" class="text-yellow-400 transition-colors duration-300 border-b-2 border-yellow-400 pb-1">Events</a>
                     </li>
                     <li>
-                        <a href="#locations" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Locations & Ambassadors</a>
+                        <a href="locations.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Locations & Ambassadors</a>
                     </li>
                     <li>
-                        <a href="#contact" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Contact</a>
+                        <a href="contact.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -254,17 +254,14 @@
                 hideLoading();
                 renderCalendar();
             }, (error) => {
-                console.error("Error fetching events:", error);
-                hideLoading();
+                console.error("Firestore connection rejected:", error);
+                // If Firebase blocks us, fall back to local memory so the calendar still draws!
+                startLocalMode();
             });
         }
 
         function startLocalMode() {
-            // Provide some dummy data for local testing
-            events = [
-                { id: '1', date: '2026-08-22', title: 'FFA Beach Run', desc: 'Squadron fly-out to First Flight Airport.' },
-                { id: '2', date: '2026-08-28', title: 'Deck Hangout', desc: 'Sunset drinks at RDU.' }
-            ];
+            isFirebaseActive = false; // Disables Firebase writes
             hideLoading();
             renderCalendar();
         }
@@ -439,7 +436,12 @@
                 if (isFirebaseActive && auth.currentUser) {
                     try {
                         await addDoc(eventsCollection, { date, title, desc });
-                    } catch(err) { console.error("Write failed", err); }
+                    } catch(err) { 
+                        console.error("Write failed", err);
+                        // Fallback to local memory if write fails
+                        events.push({ id: Date.now().toString(), date, title, desc });
+                        renderCalendar();
+                    }
                 } else {
                     events.push({ id: Date.now().toString(), date, title, desc });
                     renderCalendar();
@@ -457,7 +459,11 @@
             if (isFirebaseActive && auth.currentUser) {
                 try {
                     await deleteDoc(doc(eventsCollection, id));
-                } catch(err) { console.error("Delete failed", err); }
+                } catch(err) { 
+                    console.error("Delete failed", err);
+                    events = events.filter(e => e.id !== id);
+                    renderCalendar();
+                }
             } else {
                 events = events.filter(e => e.id !== id);
                 renderCalendar();
@@ -497,6 +503,7 @@
         };
 
         // Boot up
+        renderCalendar(); // Draw the blank calendar immediately so it's never empty
         initApp();
     </script>
 </body>

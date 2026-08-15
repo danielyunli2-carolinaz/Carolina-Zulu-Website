@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locations & Ambassadors | Carolina Zulu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sunset: {
+                            900: '#7c2d12',
+                            800: '#9a3412',
+                            700: '#c2410c',
+                            100: '#ffedd5',
+                        }
+                    },
+                    animation: {
+                        'ping-slow': 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite',
+                        'radar-spin': 'radar 10s linear infinite',
+                    },
+                    keyframes: {
+                        radar: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+        
+        .glass-panel {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .map-pin {
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+        }
+        .map-pin.active .pin-dot {
+            background-color: #facc15; /* yellow-400 */
+            box-shadow: 0 0 20px #facc15, 0 0 40px #facc15;
+            transform: scale(1.5);
+        }
+        .map-pin.active .pin-ring {
+            border-color: #facc15;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-sunset-800 via-sunset-700 to-sunset-900 min-h-screen text-sunset-100 font-sans selection:bg-orange-500 selection:text-white flex flex-col">
+
+    <nav class="w-full bg-black/20 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center h-20">
+                <ul class="flex flex-wrap justify-center gap-6 sm:gap-10 text-sm sm:text-base font-semibold tracking-wide">
+                    <li><a href="index.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Home</a></li>
+                    <li><a href="about.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">About Us</a></li>
+                    <li><a href="events.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Events</a></li>
+                    <li><a href="locations.html" class="text-yellow-400 transition-colors duration-300 border-b-2 border-yellow-400 pb-1">Locations & Ambassadors</a></li>
+                    <li><a href="contact.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex flex-col items-center flex-grow px-4 py-16 text-center w-full max-w-7xl mx-auto">
+        
+        <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400 drop-shadow-sm">
+            Our Footprint
+        </h1>
+        <p class="text-lg sm:text-xl text-orange-200 font-light mb-12">Click a waypoint on the radar to meet your local ambassador.</p>
+        
+        <div class="w-full grid grid-cols-1 lg:grid-cols-5 gap-8">
+            
+            <div class="lg:col-span-3 glass-panel rounded-3xl p-4 sm:p-8 shadow-2xl relative overflow-hidden flex items-center justify-center min-h-[400px] sm:min-h-[600px]">
+                
+                <!-- Radar Background Grid -->
+                <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
+                
+                <!-- Zoom Controls -->
+                <div class="absolute bottom-4 right-4 z-40 flex gap-2 pointer-events-auto">
+                    <button id="zoomOutBtn" class="w-10 h-10 rounded-full bg-black/50 border border-white/20 text-white flex items-center justify-center hover:bg-white/10 hover:border-yellow-400 transition backdrop-blur-md shadow-lg" title="Zoom Out">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                    </button>
+                    <button id="zoomInBtn" class="w-10 h-10 rounded-full bg-black/50 border border-white/20 text-white flex items-center justify-center hover:bg-white/10 hover:border-yellow-400 transition backdrop-blur-md shadow-lg" title="Zoom In">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Unified Map Container with Zoom -->
+                <div id="mapWrapper" class="relative w-full max-w-[800px] z-10 flex items-center justify-center h-full pointer-events-auto cursor-grab active:cursor-grabbing">
+                    <div id="mapZoomTarget" class="relative w-full transition-transform origin-center pointer-events-none">
+                        
+                        <!-- Image Map with CSS Magic -->
+                        <img 
+                            src="carolinas.jpg" 
+                            alt="Map of the Carolinas" 
+                            class="w-full h-auto filter invert mix-blend-screen opacity-80 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)] relative z-10"
+                        >
+
+                        <!-- Interactive Pins Container -->
+                        <div id="mapPinsContainer" class="absolute inset-0 w-full h-full pointer-events-auto z-20"></div>
+
+                        <!-- Radar Sweep Animation (Constrained to map image and anchored to NC/SC border) -->
+                        <div class="absolute inset-0 overflow-hidden pointer-events-none z-30 mix-blend-screen" style="clip-path: inset(0);">
+                            <!-- Wrapper for positioning (Prevents animation from overriding the centering) -->
+                            <!-- You can adjust the top % and left % here to perfectly nudge the anchor point! -->
+                            <div class="absolute" style="top: 48%; left: 45%; width: 250%; aspect-ratio: 1 / 1; transform: translate(-50%, -50%);">
+                                <!-- Inner element for spinning -->
+                                <div class="w-full h-full rounded-full border border-white/10 animate-radar-spin opacity-60" style="background: conic-gradient(from 0deg, transparent 70%, rgba(250, 204, 21, 0.4) 100%);"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col text-left transition-all duration-500 relative overflow-hidden" id="infoPanel">
+                
+                <!-- Default State / Loading Overlay -->
+                <div id="selectPrompt" class="absolute inset-0 bg-sunset-800/90 backdrop-blur-sm z-10 flex flex-col items-center justify-center transition-opacity duration-300">
+                    <svg class="w-12 h-12 text-orange-400 mb-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <p class="text-orange-200 font-medium text-lg">Select a waypoint on the map.</p>
+                </div>
+
+                <div class="flex items-start justify-between mb-6 pb-6 border-b border-white/10">
+                    <div>
+                        <span id="locCode" class="text-sm font-bold text-orange-400 tracking-widest uppercase mb-1 block">TTA</span>
+                        <h2 id="locName" class="text-3xl font-bold text-yellow-400">Raleigh Exec Jetport</h2>
+                    </div>
+                </div>
+                
+                <!-- Ambassador Profile Container (Hides if no ambassador) -->
+                <div id="ambProfile" class="flex flex-col sm:flex-row gap-6 mb-6 items-center sm:items-start transition-all duration-300">
+                    <div class="w-32 h-32 shrink-0 rounded-full border-4 border-sunset-900 shadow-xl overflow-hidden bg-black/30">
+                        <img id="ambImg" src="" alt="Ambassador" class="w-full h-full object-cover">
+                    </div>
+                    
+                    <div class="flex flex-col text-center sm:text-left pt-2">
+                        <h3 id="ambName" class="text-2xl font-bold text-sunset-100">Name</h3>
+                        <p id="ambTitle" class="text-orange-300/80 font-semibold text-sm tracking-wider uppercase mb-1">Title</p>
+                        <p id="ambUni" class="text-white/50 text-xs tracking-wider uppercase mb-3">University</p>
+                        <a href="https://discord.gg/EyyGxW4Y2w" target="_blank" class="inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-sunset-900 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg hover:from-yellow-300 hover:to-orange-400 transition shadow-lg">
+                            Contact Ambassador
+                        </a>
+                    </div>
+                </div>
+
+                <div id="descContainer" class="bg-black/30 p-5 rounded-2xl border border-white/5 flex-grow">
+                    <p id="ambDesc" class="text-base text-sunset-100/90 leading-relaxed font-normal">
+                        Description goes here.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Ambassador Call to Action -->
+        <div class="mt-12 w-full max-w-3xl mx-auto bg-black/20 border border-white/10 rounded-2xl p-6 sm:p-8 shadow-xl backdrop-blur-sm transition duration-300 hover:bg-black/30">
+            <p class="text-lg sm:text-xl text-sunset-100 font-light">
+                Interested in becoming an ambassador for your local airport? 
+                <a href="https://discord.gg/EyyGxW4Y2w" target="_blank" class="text-yellow-400 font-bold hover:text-orange-400 transition-colors underline decoration-yellow-400/30 underline-offset-4 ml-1">
+                    Don't be afraid to reach out!
+                </a>
+            </p>
+        </div>
+
+    </main>
+
+    <script>
+        // Highly accurate coordinates mapped to our image's proportions
+        const locations = [
+            {
+                id: 'tta', code: 'KTTA', name: 'Raleigh Exec Jetport',
+                top: '33%', left: '60%', 
+                ambName: 'Daniel Li', ambTitle: 'Founder', ambUni: 'NCSU',
+                ambImg: 'prez.png', imgStyle: 'object-center', 
+                desc: 'Raleigh Executive Jetport (KTTA) is the place where Carolina Zulu was born. Encompassing both sides of the ramp, our members have ties to Wings of Carolina Flying Club, Executive Flight Training, local independent pilots, and even the FBO itself. Contact to learn more about flying here!'
+            },
+            {
+                id: 'crooked', code: '7NC5', name: 'Crooked Creek',
+                top: '23%', left: '71%',
+                ambName: 'Rubdul Bah', ambTitle: 'Ambassador', ambUni: '',
+                ambImg: 'https://placehold.co/400x400/9a3412/ffedd5?text=Photo+Coming+Soon', imgStyle: 'object-center', 
+                desc: '7NC5 is one of the premier soaring destinations of the Central NC area, and it is anchored by long-time glider pilot Rubdul Bah. If you are ever interested in learning how to soar here, make sure to contact us!'
+            },
+            {
+                id: 'lkn', code: '14A', name: 'Lake Norman Airpark',
+                top: '32%', left: '41%',
+                ambName: null,
+            },
+            {
+                id: 'rdu', code: 'KRDU', name: 'Raleigh-Durham Int\'l',
+                top: '27%', left: '64%',
+                ambName: null,
+            },
+            {
+                id: 'lhz', code: 'KLHZ', name: 'Triangle North Airport',
+                top: '21%', left: '68%',
+                ambName: null,
+            },
+            {
+                id: 'hnz', code: 'KHNZ', name: 'Henderson-Oxford',
+                top: '16%', left: '64%',
+                ambName: null,
+            },
+            {
+                id: 'jnx', code: 'KJNX', name: 'Johnston Regional',
+                top: '33%', left: '68%',
+                ambName: null,
+            },
+            {
+                id: 'ball', code: '79NC', name: 'Ball Airport',
+                top: '20%', left: '69%',
+                ambName: null,
+            }
+        ];
+
+        const container = document.getElementById('mapPinsContainer');
+        const selectPrompt = document.getElementById('selectPrompt');
+        
+        // DOM Elements for Panel
+        const locCode = document.getElementById('locCode');
+        const locName = document.getElementById('locName');
+        const ambProfile = document.getElementById('ambProfile');
+        const ambName = document.getElementById('ambName');
+        const ambTitle = document.getElementById('ambTitle');
+        const ambUni = document.getElementById('ambUni');
+        const ambImg = document.getElementById('ambImg');
+        const descContainer = document.getElementById('descContainer');
+        const ambDesc = document.getElementById('ambDesc');
+
+        // Render Map Pins
+        locations.forEach(loc => {
+            const pinBtn = document.createElement('button');
+            pinBtn.className = 'map-pin absolute flex flex-col items-center group focus:outline-none';
+            pinBtn.style.top = loc.top;
+            pinBtn.style.left = loc.left;
+            pinBtn.dataset.id = loc.id;
+            
+            pinBtn.innerHTML = `
+                <div class="relative flex items-center justify-center">
+                    <div class="pin-ring absolute w-8 h-8 rounded-full border border-orange-400 opacity-0 group-hover:opacity-100 group-[.active]:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute w-3 h-3 rounded-full bg-orange-500 opacity-75 animate-ping-slow"></div>
+                    <div class="pin-dot relative w-3 h-3 rounded-full bg-orange-400 group-hover:bg-yellow-400 transition-colors shadow-[0_0_10px_rgba(251,146,60,0.8)]"></div>
+                </div>
+                <span class="absolute top-4 mt-2 text-xs font-bold text-orange-200 opacity-0 group-hover:opacity-100 group-[.active]:opacity-100 transition-all duration-300 tracking-widest uppercase bg-black/50 px-2 py-0.5 rounded backdrop-blur-sm border border-white/5 whitespace-nowrap pointer-events-none">
+                    ${loc.code}
+                </span>
+            `;
+
+            pinBtn.addEventListener('click', () => selectLocation(loc.id));
+            container.appendChild(pinBtn);
+        });
+
+        // Handle Pin Selection
+        function selectLocation(id) {
+            const loc = locations.find(l => l.id === id);
+            if(!loc) return;
+
+            // Remove active state from all pins
+            document.querySelectorAll('.map-pin').forEach(pin => pin.classList.remove('active'));
+            
+            // Add active state to clicked pin
+            const activePin = document.querySelector(`.map-pin[data-id="${id}"]`);
+            if(activePin) activePin.classList.add('active');
+
+            // Update Panel Data
+            locCode.textContent = loc.code;
+            locName.textContent = loc.name;
+            ambDesc.textContent = loc.desc;
+            
+            // Toggle Ambassador Profile & Description Visibility
+            if (loc.ambName) {
+                ambProfile.classList.remove('hidden');
+                ambProfile.classList.add('flex');
+                descContainer.classList.remove('hidden');
+                
+                ambName.textContent = loc.ambName;
+                ambTitle.textContent = loc.ambTitle;
+                ambUni.textContent = loc.ambUni;
+                
+                ambImg.src = loc.ambImg;
+                ambImg.className = `w-full h-full object-cover ${loc.imgStyle}`;
+            } else {
+                ambProfile.classList.add('hidden');
+                ambProfile.classList.remove('flex');
+                descContainer.classList.add('hidden');
+            }
+
+            // Hide the initial prompt
+            selectPrompt.classList.add('opacity-0');
+            setTimeout(() => selectPrompt.classList.add('hidden'), 300);
+        }
+
+        // --- Map Zoom & Pan Logic ---
+        const mapWrapper = document.getElementById('mapWrapper');
+        const mapZoomTarget = document.getElementById('mapZoomTarget');
+        let scale = 1;
+        let isDragging = false;
+        let startX, startY;
+        let translateX = 0, translateY = 0;
+
+        function updateTransform(useTransition = false) {
+            if (useTransition) {
+                mapZoomTarget.style.transition = 'transform 0.3s ease-out';
+            } else {
+                mapZoomTarget.style.transition = 'none';
+            }
+            mapZoomTarget.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        }
+
+        document.getElementById('zoomInBtn').addEventListener('click', () => {
+            scale = Math.min(scale + 0.5, 4);
+            updateTransform(true);
+        });
+
+        document.getElementById('zoomOutBtn').addEventListener('click', () => {
+            scale = Math.max(scale - 0.5, 1);
+            if(scale === 1) { translateX = 0; translateY = 0; }
+            updateTransform(true);
+        });
+
+        // Wheel Zoom
+        mapWrapper.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            scale += e.deltaY * -0.002;
+            scale = Math.min(Math.max(1, scale), 4);
+            if(scale === 1) { translateX = 0; translateY = 0; }
+            updateTransform(false);
+        });
+
+        // Mouse Drag to Pan
+        mapWrapper.addEventListener('mousedown', (e) => {
+            if (scale > 1) {
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            updateTransform(false);
+        });
+    </script>
+</body>
+</html>

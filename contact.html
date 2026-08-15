@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Carolina Zulu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sunset: {
+                            900: '#7c2d12',
+                            800: '#9a3412',
+                            700: '#c2410c',
+                            100: '#ffedd5',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-b from-sunset-800 via-sunset-700 to-sunset-900 min-h-screen text-sunset-100 font-sans selection:bg-orange-500 selection:text-white flex flex-col">
+
+    <nav class="w-full bg-black/20 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center h-20">
+                <ul class="flex flex-wrap justify-center gap-6 sm:gap-10 text-sm sm:text-base font-semibold tracking-wide">
+                    <li><a href="index.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Home</a></li>
+                    <li><a href="about.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">About Us</a></li>
+                    <li><a href="events.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Events</a></li>
+                    <li><a href="locations.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Locations & Ambassadors</a></li>
+                    <li><a href="contact.html" class="text-yellow-400 transition-colors duration-300 border-b-2 border-yellow-400 pb-1">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex flex-col items-center flex-grow px-4 py-16 text-center w-full max-w-5xl mx-auto">
+        
+        <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400 drop-shadow-sm">
+            Get in Touch
+        </h1>
+        <p class="text-lg sm:text-xl text-orange-200 font-light mb-12">Whether you're looking to fly with us or have a question, reach out below!</p>
+
+        <!-- Discord Banner -->
+        <div class="w-full bg-gradient-to-r from-indigo-600 to-indigo-800 rounded-3xl p-8 sm:p-12 mb-16 shadow-2xl border border-white/20 relative overflow-hidden group">
+            <!-- Decorative background elements -->
+            <div class="absolute -top-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition duration-700 pointer-events-none"></div>
+            
+            <div class="relative z-10 flex flex-col items-center">
+                <svg class="w-16 h-16 text-white mb-6 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+                </svg>
+                <h2 class="text-3xl font-bold text-white mb-2">Join Our Discord Server</h2>
+                <p class="text-indigo-200 mb-8 max-w-xl text-lg">Discord is the absolute best way to reach out to the entire squadron, plan flights, and stay up to date with events.</p>
+                <a href="https://discord.gg/EyyGxW4Y2w" target="_blank" rel="noopener noreferrer" class="bg-white text-indigo-700 font-extrabold text-lg py-4 px-10 rounded-full hover:bg-yellow-400 hover:text-sunset-900 transition-colors shadow-xl hover:shadow-yellow-400/50 transform hover:-translate-y-1 duration-300">
+                    Connect on Discord
+                </a>
+            </div>
+        </div>
+
+        <h2 class="text-3xl font-bold tracking-tight mb-8 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400 drop-shadow-sm w-full text-left border-b border-white/10 pb-4">
+            Direct Leadership Lines
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+            
+            <!-- Daniel Contact Card -->
+            <div class="bg-black/20 p-8 rounded-3xl border border-white/10 shadow-2xl flex flex-col sm:flex-row gap-6 items-center sm:items-start text-center sm:text-left transition duration-500 hover:bg-black/30">
+                <div class="w-24 h-24 shrink-0 rounded-full border-4 border-sunset-900 shadow-xl overflow-hidden bg-black/30">
+                    <img src="prez.png" alt="Daniel Li" class="w-full h-full object-cover object-center">
+                </div>
+                
+                <div class="flex flex-col w-full">
+                    <h3 class="text-2xl font-bold text-yellow-400 mb-1">Daniel Li</h3>
+                    <p class="text-sunset-100/70 font-medium text-sm mb-5">President & Founder</p>
+                    
+                    <div class="space-y-3">
+                        <a href="tel:9198039429" class="flex items-center justify-center sm:justify-start gap-3 text-orange-200 hover:text-yellow-400 transition group">
+                            <div class="p-2 bg-white/5 rounded-lg group-hover:bg-yellow-400/10 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            </div>
+                            <span class="font-mono text-lg tracking-wide">(919) 803-9429</span>
+                        </a>
+                        
+                        <a href="mailto:danylaviation@gmail.com" class="flex items-center justify-center sm:justify-start gap-3 text-orange-200 hover:text-yellow-400 transition group">
+                            <div class="p-2 bg-white/5 rounded-lg group-hover:bg-yellow-400/10 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <span class="text-base truncate">danylaviation@gmail.com</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Corey Contact Card -->
+            <div class="bg-black/20 p-8 rounded-3xl border border-white/10 shadow-2xl flex flex-col sm:flex-row gap-6 items-center sm:items-start text-center sm:text-left transition duration-500 hover:bg-black/30">
+                <div class="w-24 h-24 shrink-0 rounded-full border-4 border-sunset-900 shadow-xl overflow-hidden bg-black/30">
+                    <img src="theboys.jpg" alt="Corey Phelan" class="w-full h-full object-cover transform scale-[2.2] origin-[10%_45%]">
+                </div>
+                
+                <div class="flex flex-col w-full">
+                    <h3 class="text-2xl font-bold text-yellow-400 mb-1">Corey Phelan</h3>
+                    <p class="text-sunset-100/70 font-medium text-sm mb-5">Vice President & Co-Founder</p>
+                    
+                    <div class="space-y-3">
+                        <a href="tel:9199464345" class="flex items-center justify-center sm:justify-start gap-3 text-orange-200 hover:text-yellow-400 transition group">
+                            <div class="p-2 bg-white/5 rounded-lg group-hover:bg-yellow-400/10 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            </div>
+                            <span class="font-mono text-lg tracking-wide">(919) 946-4345</span>
+                        </a>
+                        
+                        <a href="mailto:coreyphe@gmail.com" class="flex items-center justify-center sm:justify-start gap-3 text-orange-200 hover:text-yellow-400 transition group">
+                            <div class="p-2 bg-white/5 rounded-lg group-hover:bg-yellow-400/10 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <span class="text-base truncate">coreyphe@gmail.com</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="w-full text-center py-6 text-sunset-100/50 text-sm border-t border-white/10 mt-auto">
+        <p>&copy; 2026 Carolina Zulu. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
