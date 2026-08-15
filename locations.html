@@ -151,7 +151,7 @@
                         <h3 id="ambName" class="text-2xl font-bold text-sunset-100">Name</h3>
                         <p id="ambTitle" class="text-orange-300/80 font-semibold text-sm tracking-wider uppercase mb-1">Title</p>
                         <p id="ambUni" class="text-white/50 text-xs tracking-wider uppercase mb-3">University</p>
-                        <a href="https://discord.gg/EyyGxW4Y2w" target="_blank" class="inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-sunset-900 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg hover:from-yellow-300 hover:to-orange-400 transition shadow-lg">
+                        <a id="ambContactBtn" href="https://discord.gg/EyyGxW4Y2w" target="_blank" class="inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-sunset-900 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg hover:from-yellow-300 hover:to-orange-400 transition shadow-lg">
                             Contact Ambassador
                         </a>
                     </div>
@@ -186,6 +186,7 @@
                 top: '33%', left: '60%', 
                 ambName: 'Daniel Li', ambTitle: 'Founder', ambUni: 'NCSU',
                 ambImg: 'prez.png', imgStyle: 'object-center', 
+                contactLink: 'contact.html#daniel',
                 desc: 'Raleigh Executive Jetport (KTTA) is the place where Carolina Zulu was born. Encompassing both sides of the ramp, our members have ties to Wings of Carolina Flying Club, Executive Flight Training, local independent pilots, and even the FBO itself. Contact to learn more about flying here!'
             },
             {
@@ -238,6 +239,7 @@
         const ambTitle = document.getElementById('ambTitle');
         const ambUni = document.getElementById('ambUni');
         const ambImg = document.getElementById('ambImg');
+        const ambContactBtn = document.getElementById('ambContactBtn');
         const descContainer = document.getElementById('descContainer');
         const ambDesc = document.getElementById('ambDesc');
 
@@ -293,6 +295,14 @@
                 
                 ambImg.src = loc.ambImg;
                 ambImg.className = `w-full h-full object-cover ${loc.imgStyle}`;
+
+                if (loc.contactLink) {
+                    ambContactBtn.href = loc.contactLink;
+                    ambContactBtn.target = '_self'; // Opens in same tab instead of a new one
+                } else {
+                    ambContactBtn.href = 'https://discord.gg/EyyGxW4Y2w';
+                    ambContactBtn.target = '_blank'; // Opens Discord in a new tab
+                }
             } else {
                 ambProfile.classList.add('hidden');
                 ambProfile.classList.remove('flex');
