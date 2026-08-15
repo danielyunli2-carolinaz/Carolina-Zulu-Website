@@ -207,33 +207,26 @@
 
         async function initApp() {
             try {
-                // Determine Environment configuration
-                const appId = typeof __app_id !== 'undefined' ? __app_id : 'carolina-zulu';
-                const configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
-                
-                // If we don't have a database configured (e.g. on your fresh Cloudflare site), fall back to memory
-                if (!configStr) {
-                    console.log("No Firebase config detected. Running in local memory mode.");
-                    startLocalMode();
-                    return;
-                }
+                // YOUR FIREBASE CONFIGURATION GOES HERE
+                const firebaseConfig = {
+                    apiKey: "AIzaSyCOHSFOcUVoaBFQKgYz9Z3uZZuxsP55neY",
+                    authDomain: "carolina-zulu-db.firebaseapp.com",
+                    projectId: "carolina-zulu-db",
+                    storageBucket: "carolina-zulu-db.firebasestorage.app",
+                    messagingSenderId: "65619136860",
+                    appId: "1:65619136860:web:063855050de09d3411b199"
+                };
 
                 // Initialize Firebase
-                const firebaseConfig = JSON.parse(configStr);
                 const app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
                 
-                // Authentication is required before Database reads
-                const initialToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-                if (initialToken) {
-                    await signInWithCustomToken(auth, initialToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
+                // Sign in anonymously (Required for our database connection)
+                await signInAnonymously(auth);
 
-                // Setup the Database Path (MANDATORY RULE)
-                eventsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'squadron_events');
+                // Setup the Database Path
+                eventsCollection = collection(db, 'artifacts', 'carolina-zulu', 'public', 'data', 'squadron_events');
                 isFirebaseActive = true;
                 
                 // Start listening to live database changes
