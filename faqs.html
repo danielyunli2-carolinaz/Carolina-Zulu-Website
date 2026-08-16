@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs | Carolina Zulu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sunset: {
+                            900: '#7c2d12',
+                            800: '#9a3412',
+                            700: '#c2410c',
+                            100: '#ffedd5',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-b from-sunset-800 via-sunset-700 to-sunset-900 min-h-screen text-sunset-100 font-sans selection:bg-orange-500 selection:text-white flex flex-col">
+
+    <nav class="w-full bg-black/20 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center min-h-[5rem] py-2">
+                <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm sm:text-base font-semibold tracking-wide">
+                    <li><a href="index.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Home</a></li>
+                    <li><a href="about.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">About Us</a></li>
+                    <li><a href="events.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Events</a></li>
+                    <li><a href="photos.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Photos</a></li>
+                    <li><a href="milestones.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Member Milestones</a></li>
+                    <li><a href="locations.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Locations & Ambassadors</a></li>
+                    <li><a href="contact.html" class="text-sunset-100 hover:text-yellow-400 transition-colors duration-300">Contact</a></li>
+                    <li><a href="faq.html" class="text-yellow-400 transition-colors duration-300 border-b-2 border-yellow-400 pb-1">FAQs</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex flex-col items-center flex-grow px-4 py-16 text-center w-full max-w-4xl mx-auto">
+        
+        <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400 drop-shadow-sm">
+            FAQs
+        </h1>
+        <p class="text-lg sm:text-xl text-orange-200 font-light mb-12">Everything you need to know about flying with us.</p>
+
+        <div class="w-full space-y-4 text-left max-w-3xl mx-auto pb-10">
+            
+            <!-- Question 1 -->
+            <details class="group bg-black/20 border border-white/10 rounded-2xl shadow-xl backdrop-blur-sm transition duration-300 hover:bg-black/30 open:bg-black/40 overflow-hidden">
+                <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-6 text-lg sm:text-xl text-yellow-400">
+                    <span>Are you guys a flight school?</span>
+                    <span class="transition duration-300 group-open:rotate-180 text-orange-400">
+                        <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-sunset-100/90 leading-relaxed font-light">
+                    Absolutely not. We are purely a social network for young pilots. We do not provide flight instruction or have any employees. We do not own or rent aircraft as an organization. However, we have members across the state in various flight schools and flight clubs, and can help provide opportunities to fly wherever we are!
+                </div>
+            </details>
+
+            <!-- Question 2 -->
+            <details class="group bg-black/20 border border-white/10 rounded-2xl shadow-xl backdrop-blur-sm transition duration-300 hover:bg-black/30 open:bg-black/40 overflow-hidden">
+                <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-6 text-lg sm:text-xl text-yellow-400">
+                    <span>Is there an age limit?</span>
+                    <span class="transition duration-300 group-open:rotate-180 text-orange-400">
+                        <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-sunset-100/90 leading-relaxed font-light">
+                    While there is not technically an age limit, we were founded as a space for Gen-Z aged aviators (born 1997 to 2012.) While we will not turn you away if outside these limits, the core mission may be mismatched with your circumstances.
+                </div>
+            </details>
+
+            <!-- Question 3 -->
+            <details class="group bg-black/20 border border-white/10 rounded-2xl shadow-xl backdrop-blur-sm transition duration-300 hover:bg-black/30 open:bg-black/40 overflow-hidden">
+                <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-6 text-lg sm:text-xl text-yellow-400">
+                    <span>Are there any membership fees?</span>
+                    <span class="transition duration-300 group-open:rotate-180 text-orange-400">
+                        <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-sunset-100/90 leading-relaxed font-light">
+                    No. Carolina Zulu is a 100% free social community. We don't charge dues. The only costs you'll ever have are splitting rental fuel if you ride along, or buying your own lunch at group fly-ins or events!
+                </div>
+            </details>
+
+            <!-- Question 4 -->
+            <details class="group bg-black/20 border border-white/10 rounded-2xl shadow-xl backdrop-blur-sm transition duration-300 hover:bg-black/30 open:bg-black/40 overflow-hidden">
+                <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-6 text-lg sm:text-xl text-yellow-400">
+                    <span>Do I need a pilot's license to join?</span>
+                    <span class="transition duration-300 group-open:rotate-180 text-orange-400">
+                        <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-sunset-100/90 leading-relaxed font-light">
+                    Absolutely not! Anyone who is interested in flight training or actively flight training is free to join. We have many mentors in our community who can actually help provide a shoulder to lean on as you earn your pilot's license.
+                </div>
+            </details>
+
+            <!-- Question 5 -->
+            <details class="group bg-black/20 border border-white/10 rounded-2xl shadow-xl backdrop-blur-sm transition duration-300 hover:bg-black/30 open:bg-black/40 overflow-hidden">
+                <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-6 text-lg sm:text-xl text-yellow-400">
+                    <span>Do I have to live near established community hubs to join?</span>
+                    <span class="transition duration-300 group-open:rotate-180 text-orange-400">
+                        <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-sunset-100/90 leading-relaxed font-light">
+                    Absolutely not! Membership is open to anyone within the borders of North and South Carolina. We can provide assistance in even creating a community at your home airport!
+                </div>
+            </details>
+
+        </div>
+
+    </main>
+
+    <footer class="w-full text-center py-6 text-sunset-100/50 text-sm border-t border-white/10 mt-auto">
+        <p>&copy; 2026 Carolina Zulu. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
